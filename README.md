@@ -1,10 +1,8 @@
 This repository contains various [Joe query files](https://github.com/evilsocket/joe) for the [PwnGRID](http://github.com/evilsocket/pwngrid) database running on [api.pwnagotchi.ai](https://pwnagotchi.ai/api/grid/).
 
-This document has been automatically generated with [joe v1.0.0](https://github.com/evilsocket/joe).
+## Joe Queries
 
-## Main
-
-These are the authentication and visualization generic endpoints.
+This document has been automatically generated with [joe v1.0.0a](https://github.com/evilsocket/joe).
 
 ### GET|POST /api/v1/auth  
 
@@ -17,7 +15,7 @@ Authenticate to the API with username and password in order to get a JWT token.
 
 #### Request
 
-    curl --data "user=admin&pass=admin" http://localhost:8080/api/v1/auth
+    curl --data "user=admin&pass=admin" http://127.0.0.1:8080/api/v1/auth
 
 #### Response
 
@@ -33,7 +31,7 @@ Get a list of the queries that are currently loaded in the system.
 
 #### Request
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/queries
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/queries
 
 #### Response
 
@@ -67,104 +65,85 @@ Get a list of the queries that are currently loaded in the system.
 ```
 
 
-### GET /api/v1/query/top_players/view  
 
-Show information about the top_players query.
+
+
+### GET /api/v1/query/num_messages/view  
+
+Show information about the num_messages query.
 
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/top_players/view
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/num_messages/view
 
 
 #### Response
 
 ```json
 {
-  "created_at": "2019-11-09T10:57:01.784331255+01:00",
-  "updated_at": "2019-11-09T10:57:01.784494235+01:00",
-  "name": "top_players",
+  "created_at": "2019-11-07T19:11:18.871797845+01:00",
+  "updated_at": "2019-11-07T19:11:18.872002647+01:00",
+  "name": "num_messages",
   "cache": {
-    "type": 1,
-    "keys": [
-      "limit"
-    ],
-    "ttl": 3600
+    "type": 2,
+    "keys": null,
+    "ttl": 60
   },
-  "description": "Top players by access points.",
-  "defaults": {
-    "limit": 25
-  },
-  "query": "SELECT  u.updated_at as active_at, u.name, u.fingerprint, u.country, COUNT(a.id) AS networks FROM units u INNER JOIN access_points a ON u.id = a.unit_id GROUP BY u.id ORDER BY networks DESC LIMIT {limit}",
-  "views": {
-    "bars": "top_players_bars.go"
-  },
+  "description": "Number of pwngrid messages.",
+  "defaults": null,
+  "query": "SELECT count(id) AS num_messages FROM messages",
+  "views": null,
   "access": [
     "admin"
   ]
 }
 ```
 
-### GET|POST /api/v1/query/top_players(.json|.csv)
+### GET|POST /api/v1/query/num_messages(.json|.csv)
 
-Top players by access points.
-
-
-|Parameter|Default|
-|--|--|
-| `limit` | 25 |
+Number of pwngrid messages.
 
 
 
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/top_players.json?limit=25
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/num_messages.json
 
 
 #### Response
 
 ```json
 {
-  "created_at": "2019-11-09T10:57:01.784331255+01:00",
-  "updated_at": "2019-11-09T10:57:01.784494235+01:00",
-  "name": "top_players",
+  "created_at": "2019-11-07T19:11:18.871797845+01:00",
+  "updated_at": "2019-11-07T19:11:18.872002647+01:00",
+  "name": "num_messages",
   "cache": {
-    "type": 1,
-    "keys": [
-      "limit"
-    ],
-    "ttl": 3600
+    "type": 2,
+    "keys": null,
+    "ttl": 60
   },
-  "description": "Top players by access points.",
-  "defaults": {
-    "limit": 25
-  },
-  "query": "SELECT  u.updated_at as active_at, u.name, u.fingerprint, u.country, COUNT(a.id) AS networks FROM units u INNER JOIN access_points a ON u.id = a.unit_id GROUP BY u.id ORDER BY networks DESC LIMIT {limit}",
-  "views": {
-    "bars": "top_players_bars.go"
-  },
+  "description": "Number of pwngrid messages.",
+  "defaults": null,
+  "query": "SELECT count(id) AS num_messages FROM messages",
+  "views": null,
   "access": [
     "admin"
   ]
 }
 ```
 
-### GET|POST /api/v1/query/top_players/explain
+### GET|POST /api/v1/query/num_messages/explain
 
-Return results for an EXPLAIN operation on the top_players main query.
-
-
-|Parameter|Default|
-|--|--|
-| `limit` | 25 |
+Return results for an EXPLAIN operation on the num_messages main query.
 
 
 
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/top_players/explain?limit=25
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/num_messages/explain
 
 
 #### Response
@@ -199,13 +178,208 @@ Return results for an EXPLAIN operation on the top_players main query.
 
 
 
-### GET /api/v1/query/top_players/bars.(png|svg)
 
-Return a PNG or SVG representation of a bars chart for the top_players query.
+
+
+### GET /api/v1/query/units_per_day/view  
+
+Show information about the units_per_day query.
+
+#### Request
+
+
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/units_per_day/view
+
+
+#### Response
+
+```json
+{
+  "created_at": "2019-11-09T14:52:22.549358143+01:00",
+  "updated_at": "2019-11-09T14:52:22.550049163+01:00",
+  "name": "units_per_day",
+  "cache": {
+    "type": 1,
+    "keys": [
+      "days"
+    ],
+    "ttl": 3600
+  },
+  "description": "Registrations per day.",
+  "defaults": {
+    "days": 30
+  },
+  "query": "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS day, COUNT(id) AS registered FROM units GROUP BY day ORDER BY day DESC LIMIT {days};",
+  "views": {
+    "chart": "units_per_day_timeseries.go"
+  },
+  "access": [
+    "admin"
+  ]
+}
+```
+
+### GET|POST /api/v1/query/units_per_day(.json|.csv)
+
+Registrations per day.
 
 
 |Parameter|Default|
 |--|--|
+| `days` | 30 |
+
+
+
+#### Request
+
+
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/units_per_day.json?days=30
+
+
+#### Response
+
+```json
+{
+  "created_at": "2019-11-09T14:52:22.549358143+01:00",
+  "updated_at": "2019-11-09T14:52:22.550049163+01:00",
+  "name": "units_per_day",
+  "cache": {
+    "type": 1,
+    "keys": [
+      "days"
+    ],
+    "ttl": 3600
+  },
+  "description": "Registrations per day.",
+  "defaults": {
+    "days": 30
+  },
+  "query": "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS day, COUNT(id) AS registered FROM units GROUP BY day ORDER BY day DESC LIMIT {days};",
+  "views": {
+    "chart": "units_per_day_timeseries.go"
+  },
+  "access": [
+    "admin"
+  ]
+}
+```
+
+### GET|POST /api/v1/query/units_per_day/explain
+
+Return results for an EXPLAIN operation on the units_per_day main query.
+
+
+|Parameter|Default|
+|--|--|
+| `days` | 30 |
+
+
+
+#### Request
+
+
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/units_per_day/explain?days=30
+
+
+#### Response
+
+```json
+{
+  "cached_at": null,
+  "exec_time": 2763263,
+  "num_records": 1,
+  "records": [
+    {
+      "Extra": "Zero limit",
+      "filtered": null,
+      "id": 1,
+      "key": null,
+      "key_len": null,
+      "partitions": null,
+      "possible_keys": null,
+      "ref": null,
+      "rows": null,
+      "select_type": "SIMPLE",
+      "table": null,
+      "type": null
+    }
+  ]
+}
+```
+ 
+
+
+
+
+
+
+### GET /api/v1/query/units_per_day/chart.(png|svg)
+
+Return a PNG or SVG representation of a chart chart for the units_per_day query.
+
+
+|Parameter|Default|
+|--|--|
+| `days` | 30 |
+
+
+
+#### Request
+
+
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/units_per_day/chart.png?days=30
+
+
+
+
+
+
+### GET /api/v1/query/last_active/view  
+
+Show information about the last_active query.
+
+#### Request
+
+
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/last_active/view
+
+
+#### Response
+
+```json
+{
+  "created_at": "2019-11-09T11:08:43.390943648+01:00",
+  "updated_at": "2019-11-09T11:08:43.391060126+01:00",
+  "name": "last_active",
+  "cache": {
+    "type": 1,
+    "keys": [
+      "hours",
+      "limit"
+    ],
+    "ttl": 1800
+  },
+  "description": "Units seen in the last hour.",
+  "defaults": {
+    "hours": 1,
+    "limit": 25
+  },
+  "query": "SELECT updated_at, name, fingerprint, country FROM units WHERE updated_at \u003e= NOW() - INTERVAL {hours} HOUR ORDER BY updated_at DESC LIMIT {limit}",
+  "views": null,
+  "access": [
+    "admin"
+  ]
+}
+```
+
+### GET|POST /api/v1/query/last_active(.json|.csv)
+
+Units seen in the last hour.
+
+
+|Parameter|Default|
+|--|--|
+| `hours` | 1 |
 | `limit` | 25 |
 
 
@@ -213,7 +387,84 @@ Return a PNG or SVG representation of a bars chart for the top_players query.
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/top_players/bars.png?limit=25
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/last_active.json?hours=1&limit=25
+
+
+#### Response
+
+```json
+{
+  "created_at": "2019-11-09T11:08:43.390943648+01:00",
+  "updated_at": "2019-11-09T11:08:43.391060126+01:00",
+  "name": "last_active",
+  "cache": {
+    "type": 1,
+    "keys": [
+      "hours",
+      "limit"
+    ],
+    "ttl": 1800
+  },
+  "description": "Units seen in the last hour.",
+  "defaults": {
+    "hours": 1,
+    "limit": 25
+  },
+  "query": "SELECT updated_at, name, fingerprint, country FROM units WHERE updated_at \u003e= NOW() - INTERVAL {hours} HOUR ORDER BY updated_at DESC LIMIT {limit}",
+  "views": null,
+  "access": [
+    "admin"
+  ]
+}
+```
+
+### GET|POST /api/v1/query/last_active/explain
+
+Return results for an EXPLAIN operation on the last_active main query.
+
+
+|Parameter|Default|
+|--|--|
+| `hours` | 1 |
+| `limit` | 25 |
+
+
+
+#### Request
+
+
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/last_active/explain?hours=1&limit=25
+
+
+#### Response
+
+```json
+{
+  "cached_at": null,
+  "exec_time": 2763263,
+  "num_records": 1,
+  "records": [
+    {
+      "Extra": "Zero limit",
+      "filtered": null,
+      "id": 1,
+      "key": null,
+      "key_len": null,
+      "partitions": null,
+      "possible_keys": null,
+      "ref": null,
+      "rows": null,
+      "select_type": "SIMPLE",
+      "table": null,
+      "type": null
+    }
+  ]
+}
+```
+ 
+
+
+
 
 
 
@@ -227,7 +478,7 @@ Show information about the messages_per_day query.
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/messages_per_day/view
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/messages_per_day/view
 
 
 #### Response
@@ -272,7 +523,7 @@ PwnMAIL messages per day.
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/messages_per_day.json?days=30
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/messages_per_day.json?days=30
 
 
 #### Response
@@ -317,7 +568,7 @@ Return results for an EXPLAIN operation on the messages_per_day main query.
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/messages_per_day/explain?days=30
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/messages_per_day/explain?days=30
 
 
 #### Response
@@ -366,42 +617,44 @@ Return a PNG or SVG representation of a chart chart for the messages_per_day que
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/messages_per_day/chart.png?days=30
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/messages_per_day/chart.png?days=30
 
 
 
 
 
 
-### GET /api/v1/query/units_per_day/view  
+### GET /api/v1/query/top_players/view  
 
-Show information about the units_per_day query.
+Show information about the top_players query.
 
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/units_per_day/view
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/top_players/view
 
 
 #### Response
 
 ```json
 {
-  "created_at": "2019-11-09T14:30:54.296962836+01:00",
-  "updated_at": "2019-11-09T14:30:54.2970212+01:00",
-  "name": "units_per_day",
+  "created_at": "2019-11-09T10:57:01.784331255+01:00",
+  "updated_at": "2019-11-09T10:57:01.784494235+01:00",
+  "name": "top_players",
   "cache": {
     "type": 1,
     "keys": [
-      "days"
+      "limit"
     ],
     "ttl": 3600
   },
-  "description": "Registrations per day.",
-  "defaults": null,
-  "query": "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS day, COUNT(id) AS registered FROM units GROUP BY day ORDER BY day DESC LIMIT {days};",
+  "description": "Top players by access points.",
+  "defaults": {
+    "limit": 25
+  },
+  "query": "SELECT  u.updated_at as active_at, u.name, u.fingerprint, u.country, COUNT(a.id) AS networks FROM units u INNER JOIN access_points a ON u.id = a.unit_id GROUP BY u.id ORDER BY networks DESC LIMIT {limit}",
   "views": {
-    "chart": "units_per_day_timeseries.go"
+    "bars": "top_players_bars.go"
   },
   "access": [
     "admin"
@@ -409,42 +662,44 @@ Show information about the units_per_day query.
 }
 ```
 
-### GET|POST /api/v1/query/units_per_day(.json|.csv)
+### GET|POST /api/v1/query/top_players(.json|.csv)
 
-Registrations per day.
+Top players by access points.
 
 
 |Parameter|Default|
 |--|--|
-| `days` | _none_ |
+| `limit` | 25 |
 
 
 
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/units_per_day.json?days=VALUE
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/top_players.json?limit=25
 
 
 #### Response
 
 ```json
 {
-  "created_at": "2019-11-09T14:30:54.296962836+01:00",
-  "updated_at": "2019-11-09T14:30:54.2970212+01:00",
-  "name": "units_per_day",
+  "created_at": "2019-11-09T10:57:01.784331255+01:00",
+  "updated_at": "2019-11-09T10:57:01.784494235+01:00",
+  "name": "top_players",
   "cache": {
     "type": 1,
     "keys": [
-      "days"
+      "limit"
     ],
     "ttl": 3600
   },
-  "description": "Registrations per day.",
-  "defaults": null,
-  "query": "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS day, COUNT(id) AS registered FROM units GROUP BY day ORDER BY day DESC LIMIT {days};",
+  "description": "Top players by access points.",
+  "defaults": {
+    "limit": 25
+  },
+  "query": "SELECT  u.updated_at as active_at, u.name, u.fingerprint, u.country, COUNT(a.id) AS networks FROM units u INNER JOIN access_points a ON u.id = a.unit_id GROUP BY u.id ORDER BY networks DESC LIMIT {limit}",
   "views": {
-    "chart": "units_per_day_timeseries.go"
+    "bars": "top_players_bars.go"
   },
   "access": [
     "admin"
@@ -452,21 +707,21 @@ Registrations per day.
 }
 ```
 
-### GET|POST /api/v1/query/units_per_day/explain
+### GET|POST /api/v1/query/top_players/explain
 
-Return results for an EXPLAIN operation on the units_per_day main query.
+Return results for an EXPLAIN operation on the top_players main query.
 
 
 |Parameter|Default|
 |--|--|
-| `days` | _none_ |
+| `limit` | 25 |
 
 
 
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/units_per_day/explain?days=VALUE
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/top_players/explain?limit=25
 
 
 #### Response
@@ -501,73 +756,13 @@ Return results for an EXPLAIN operation on the units_per_day main query.
 
 
 
-### GET /api/v1/query/units_per_day/chart.(png|svg)
+### GET /api/v1/query/top_players/bars.(png|svg)
 
-Return a PNG or SVG representation of a chart chart for the units_per_day query.
-
-
-|Parameter|Default|
-|--|--|
-| `days` | _none_ |
-
-
-
-#### Request
-
-
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/units_per_day/chart.png?days=VALUE
-
-
-
-
-
-
-### GET /api/v1/query/last_active/view  
-
-Show information about the last_active query.
-
-#### Request
-
-
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/last_active/view
-
-
-#### Response
-
-```json
-{
-  "created_at": "2019-11-09T11:08:43.390943648+01:00",
-  "updated_at": "2019-11-09T11:08:43.391060126+01:00",
-  "name": "last_active",
-  "cache": {
-    "type": 1,
-    "keys": [
-      "hours",
-      "limit"
-    ],
-    "ttl": 1800
-  },
-  "description": "Units seen in the last hour.",
-  "defaults": {
-    "hours": 1,
-    "limit": 25
-  },
-  "query": "SELECT updated_at, name, fingerprint, country FROM units WHERE updated_at \u003e= NOW() - INTERVAL {hours} HOUR ORDER BY updated_at DESC LIMIT {limit}",
-  "views": null,
-  "access": [
-    "admin"
-  ]
-}
-```
-
-### GET|POST /api/v1/query/last_active(.json|.csv)
-
-Units seen in the last hour.
+Return a PNG or SVG representation of a bars chart for the top_players query.
 
 
 |Parameter|Default|
 |--|--|
-| `hours` | 1 |
 | `limit` | 25 |
 
 
@@ -575,190 +770,8 @@ Units seen in the last hour.
 #### Request
 
 
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/last_active.json?hours=1&limit=25
-
-
-#### Response
-
-```json
-{
-  "created_at": "2019-11-09T11:08:43.390943648+01:00",
-  "updated_at": "2019-11-09T11:08:43.391060126+01:00",
-  "name": "last_active",
-  "cache": {
-    "type": 1,
-    "keys": [
-      "hours",
-      "limit"
-    ],
-    "ttl": 1800
-  },
-  "description": "Units seen in the last hour.",
-  "defaults": {
-    "hours": 1,
-    "limit": 25
-  },
-  "query": "SELECT updated_at, name, fingerprint, country FROM units WHERE updated_at \u003e= NOW() - INTERVAL {hours} HOUR ORDER BY updated_at DESC LIMIT {limit}",
-  "views": null,
-  "access": [
-    "admin"
-  ]
-}
-```
-
-### GET|POST /api/v1/query/last_active/explain
-
-Return results for an EXPLAIN operation on the last_active main query.
-
-
-|Parameter|Default|
-|--|--|
-| `hours` | 1 |
-| `limit` | 25 |
-
-
-
-#### Request
-
-
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/last_active/explain?hours=1&limit=25
-
-
-#### Response
-
-```json
-{
-  "cached_at": null,
-  "exec_time": 2763263,
-  "num_records": 1,
-  "records": [
-    {
-      "Extra": "Zero limit",
-      "filtered": null,
-      "id": 1,
-      "key": null,
-      "key_len": null,
-      "partitions": null,
-      "possible_keys": null,
-      "ref": null,
-      "rows": null,
-      "select_type": "SIMPLE",
-      "table": null,
-      "type": null
-    }
-  ]
-}
-```
- 
+    curl -H "Authorization: Bearer ..token.." http://127.0.0.1:8080/api/v1/query/top_players/bars.png?limit=25
 
 
 
 
-
-
-
-
-
-### GET /api/v1/query/num_messages/view  
-
-Show information about the num_messages query.
-
-#### Request
-
-
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/num_messages/view
-
-
-#### Response
-
-```json
-{
-  "created_at": "2019-11-07T19:11:18.871797845+01:00",
-  "updated_at": "2019-11-07T19:11:18.872002647+01:00",
-  "name": "num_messages",
-  "cache": {
-    "type": 2,
-    "keys": null,
-    "ttl": 60
-  },
-  "description": "Number of pwngrid messages.",
-  "defaults": null,
-  "query": "SELECT count(id) AS num_messages FROM messages",
-  "views": null,
-  "access": [
-    "admin"
-  ]
-}
-```
-
-### GET|POST /api/v1/query/num_messages(.json|.csv)
-
-Number of pwngrid messages.
-
-
-
-#### Request
-
-
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/num_messages.json
-
-
-#### Response
-
-```json
-{
-  "created_at": "2019-11-07T19:11:18.871797845+01:00",
-  "updated_at": "2019-11-07T19:11:18.872002647+01:00",
-  "name": "num_messages",
-  "cache": {
-    "type": 2,
-    "keys": null,
-    "ttl": 60
-  },
-  "description": "Number of pwngrid messages.",
-  "defaults": null,
-  "query": "SELECT count(id) AS num_messages FROM messages",
-  "views": null,
-  "access": [
-    "admin"
-  ]
-}
-```
-
-### GET|POST /api/v1/query/num_messages/explain
-
-Return results for an EXPLAIN operation on the num_messages main query.
-
-
-
-#### Request
-
-
-    curl -H "Authorization: Bearer ..token.." http://localhost:8080/api/v1/query/num_messages/explain
-
-
-#### Response
-
-```json
-{
-  "cached_at": null,
-  "exec_time": 2763263,
-  "num_records": 1,
-  "records": [
-    {
-      "Extra": "Zero limit",
-      "filtered": null,
-      "id": 1,
-      "key": null,
-      "key_len": null,
-      "partitions": null,
-      "possible_keys": null,
-      "ref": null,
-      "rows": null,
-      "select_type": "SIMPLE",
-      "table": null,
-      "type": null
-    }
-  ]
-}
-```
