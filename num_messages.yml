@@ -1,0 +1,8 @@
+description: "Number of pwngrid messages."
+cache:
+  type: 2
+  ttl: 60
+access:
+  - admin
+query:
+  SELECT count(id) AS num_messages FROM messages

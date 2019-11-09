@@ -1,0 +1,20 @@
+description: "Units seen in the last hour."
+
+query:
+  SELECT updated_at, name, fingerprint, country FROM units
+    WHERE updated_at >= NOW() - INTERVAL {hours} HOUR
+    ORDER BY updated_at DESC LIMIT {limit}
+
+defaults:
+  hours: 1
+  limit: 25
+
+access:
+  - admin
+
+cache:
+  type: 1
+  # expression parameters to use for caching
+  keys: [hours, limit]
+  # ttl in seconds
+  ttl: 1800

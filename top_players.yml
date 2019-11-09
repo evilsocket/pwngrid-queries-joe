@@ -1,0 +1,20 @@
+description: "Top players by access points."
+
+query:
+  SELECT  u.updated_at as active_at, u.name, u.fingerprint, u.country, COUNT(a.id) AS networks FROM units u
+  INNER JOIN access_points a ON u.id = a.unit_id GROUP BY u.id ORDER BY networks DESC LIMIT {limit}
+defaults:
+  limit: 25
+
+views:
+  bars: top_players_bars.go
+
+access:
+  - admin
+
+cache:
+  type: 1
+  # expression parameters to use for caching
+  keys: [limit]
+  # ttl in seconds
+  ttl: 3600
