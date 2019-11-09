@@ -9,7 +9,7 @@ defaults:
   days: 30
 
 access:
-  - admin
+  - anonymous
 
 views:
   chart: aps_per_day_timeseries.go

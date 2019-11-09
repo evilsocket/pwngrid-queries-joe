@@ -10,7 +10,7 @@ views:
   bars: top_players_bars.go
 
 access:
-  - admin
+  - anonymous
 
 cache:
   type: 1
