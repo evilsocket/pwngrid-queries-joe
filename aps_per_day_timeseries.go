@@ -11,6 +11,10 @@ func View(res *models.Results) models.Chart {
 	ts := chart.TimeSeries{
 		XValues: make([]time.Time, 0),
 		YValues: make([]float64, 0),
+		Style: chart.Style{
+			StrokeColor: chart.GetDefaultColor(0).WithAlpha(64),
+			FillColor:   chart.GetDefaultColor(0).WithAlpha(64),
+		},
 	}
 
 	layout := "2006-01-02"

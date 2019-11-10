@@ -9,6 +9,10 @@ import (
 
 func View(res *models.Results) models.Chart {
 	ts := chart.TimeSeries{
+		Style: chart.Style{
+			StrokeColor: chart.GetDefaultColor(0).WithAlpha(64),
+			FillColor:   chart.GetDefaultColor(0).WithAlpha(64),
+		},
 		XValues: make([]time.Time, 0),
 		YValues: make([]float64, 0),
 	}
