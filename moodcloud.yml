@@ -1,0 +1,16 @@
+description: "Returns a list of faces and the number of units with that face."
+
+query:
+  SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(data, '"face":"', -1), '"', 1) AS face,
+  COUNT(id)                                                             AS tot
+  FROM   units
+  WHERE  INSTR(data, '"face"') != 0
+  GROUP  BY face
+  ORDER  BY tot DESC
+
+access:
+  - anonymous
+
+cache:
+  type: 2
+  ttl: 3600
