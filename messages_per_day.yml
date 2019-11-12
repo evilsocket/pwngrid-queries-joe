@@ -9,7 +9,7 @@ defaults:
   days: 365
 
 access:
-  - admin
+  - anonymous
 
 views:
   chart: messages_per_day_timeseries.go
